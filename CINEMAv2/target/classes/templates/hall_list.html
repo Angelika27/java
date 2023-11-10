@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hall List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F8E8E8;
+            color: #333;
+        }
+
+        h1 {
+            color: #FF69B4;
+        }
+
+        h2 {
+            color: #FF69B4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #FFF;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #DDD;
+        }
+
+        tr:nth-child(even) {
+            background-color: #FDF2F8;
+        }
+
+        tr:hover {
+            background-color: #FFD6E8;
+        }
+
+        input[type="text"], button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        input[type="text"] {
+            width: 150px;
+        }
+
+        button {
+            background-color: #FF69B4;
+            color: #FFF;
+            cursor: pointer;
+        }
+
+        form {
+            margin-bottom: 10px;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Hall List</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="hall : ${halls}">
+        <td th:text="${hall.id}"></td>
+        <td th:text="${hall.name}"></td>
+        <td>
+            <form th:action="@{/halls/update/{id}(id=${hall.id})}" method="post">
+                <input type="text" name="name" value="" placeholder="Name" required>
+                <button type="submit">Update</button>
+            </form>
+            <form th:action="@{/halls/delete/{id}(id=${hall.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<h2>Add Hall</h2>
+<form th:action="@{/halls/add}" method="post" th:object="${newHall}">
+    <input type="text" th:field="*{name}" placeholder="Name" required>
+    <button type="submit">Add</button>
+</form>
+<div class="center">
+    <form action="http://localhost:8080/shows">
+        <button type="submit">Go to Shows</button>
+    </form>
+</div>
+</body>
+</html>

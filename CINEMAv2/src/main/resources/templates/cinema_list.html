@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of Cinemas</title>
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #F8E8E8;
+      color: #333;
+    }
+
+    h1 {
+      color: #FF69B4;
+    }
+
+    h2 {
+      color: #FF69B4;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #FFF;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #DDD;
+    }
+
+    tr:nth-child(even) {
+      background-color: #FDF2F8;
+    }
+
+    tr:hover {
+      background-color: #FFD6E8;
+    }
+
+    input[type="text"], button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+    }
+
+    input[type="text"] {
+      width: 150px;
+    }
+
+    button {
+      background-color: #FF69B4;
+      color: #FFF;
+      cursor: pointer;
+    }
+
+    form {
+      margin-bottom: 10px;
+    }
+
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<h1>List of Cinemas</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>District</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="cinema : ${cinemas}">
+        <td th:text="${cinema.name}"></td>
+        <td th:text="${cinema.address}"></td>
+        <td th:text="${cinema.district}"></td>
+        <td>
+            <form th:action="@{/cinemas/update/{id}(id=${cinema.id})}" method="post">
+                <input type="text" name="name" value="" placeholder="Name" required>
+                <input type="text" name="address" value="" placeholder="Address" required>
+                <input type="text" name="district" value="" placeholder="District" required>
+                <button type="submit">Update</button>
+            </form>
+            <form th:action="@{/cinemas/delete/{id}(id=${cinema.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<h2>Add Cinema</h2>
+<form th:action="@{/cinemas/add}" method="post" th:object="${newCinema}">
+    <input type="text" th:field="*{name}" placeholder="Name" required>
+    <input type="text" th:field="*{address}" placeholder="Address" required>
+    <input type="text" th:field="*{district}" placeholder="District" required>
+    <button type="submit">Add</button>
+</form>
+<div class="center">
+    <form action="http://localhost:8080/shows">
+        <button type="submit">Go to Shows</button>
+    </form>
+</div>
+</body>
+</html>
